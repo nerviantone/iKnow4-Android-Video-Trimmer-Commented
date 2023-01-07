@@ -145,7 +145,8 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
 // as mBinding.trimmerView.initVideoByURI(Uri.parse(path));
 
 
-  public void initVideoByURI(final Uri videoURI) {
+  public void initVideoByURI(final Uri videoURI) {   // This is called from com/iknow/android/features/trim/VideoTrimmerActivity.java
+                                                      // ? to initialize the view
     mSourceUri = videoURI;
     mVideoView.setVideoURI(videoURI);
     mVideoView.requestFocus();

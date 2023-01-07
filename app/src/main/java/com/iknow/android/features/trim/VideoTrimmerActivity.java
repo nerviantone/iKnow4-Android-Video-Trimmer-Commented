@@ -53,7 +53,8 @@ public class VideoTrimmerActivity extends BaseActivity implements VideoTrimListe
     if (bd != null) path = bd.getString(VIDEO_PATH_KEY);
     if (mBinding.trimmerView != null) {
       mBinding.trimmerView.setOnTrimVideoListener(this);
-      mBinding.trimmerView.initVideoByURI(Uri.parse(path));
+      mBinding.trimmerView.initVideoByURI(Uri.parse(path));   // ? Starts the app/src/main/java/com/iknow/android/widget/VideoTrimmerView.java
+                                                                // by passing in the URI path
     }
   }
 
