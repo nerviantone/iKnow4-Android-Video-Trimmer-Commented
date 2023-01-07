@@ -69,7 +69,8 @@ public class VideoSelectAdapter extends CursorAdapter {
         .into(holder.videoCover);
     holder.videoItemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        VideoTrimmerActivity.call((FragmentActivity) mContext, path);
+        VideoTrimmerActivity.call((FragmentActivity) mContext, path);    //this calls the call(FragmentActivity from, String videoPath) method inside
+                                                                            // the java/com/iknow/android/features/trim/VideoTrimmerActivity.java file
       }
     });
   }
