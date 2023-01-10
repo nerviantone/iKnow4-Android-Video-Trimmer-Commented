@@ -162,7 +162,8 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
           // The purpose of the callback function is to inform a class Sync/Async
           // if some work in another class is done.
           // This is very useful when working with Asynchronous tasks.
-
+// This is similar to calling
+// VideoTrimmerUtil.shootVideoThumbInBackground(context, videoUri, totalThumbsCount, startPosition, endPosition, callback = new SingleCallback<Bitmap, Integer>())
           @Override public void onSingleCallback(final Bitmap bitmap, final Integer interval) {  // this is called from shootVideoThumbInBackground(final Context context, final Uri videoUri, final int totalThumbsCount, final long startPosition,
           //  final long endPosition, final SingleCallback<Bitmap, Integer> callback)
             if (bitmap != null) {
