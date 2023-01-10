@@ -156,8 +156,15 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
 
   private void startShootVideoThumbs(final Context context, final Uri videoUri, int totalThumbsCount, long startPosition, long endPosition) {
     VideoTrimmerUtil.shootVideoThumbInBackground(context, videoUri, totalThumbsCount, startPosition, endPosition,
-        new SingleCallback<Bitmap, Integer>() {   // annonymous class SingleCallback<Bitmap, Integer>()
-          @Override public void onSingleCallback(final Bitmap bitmap, final Integer interval) {
+        new SingleCallback<Bitmap, Integer>() {   // annonymous class SingleCallback<Bitmap, Integer>() // ? callback function
+      // A CallBack Function is a function that is passed into another function as an
+          // argument and is expected to execute after some kind of event.
+          // The purpose of the callback function is to inform a class Sync/Async
+          // if some work in another class is done.
+          // This is very useful when working with Asynchronous tasks.
+
+          @Override public void onSingleCallback(final Bitmap bitmap, final Integer interval) {  // this is called from shootVideoThumbInBackground(final Context context, final Uri videoUri, final int totalThumbsCount, final long startPosition,
+          //  final long endPosition, final SingleCallback<Bitmap, Integer> callback)
             if (bitmap != null) {
               UiThreadExecutor.runTask("", new Runnable() {
                 @Override public void run() {

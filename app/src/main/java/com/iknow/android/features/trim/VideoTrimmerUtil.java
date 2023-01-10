@@ -83,7 +83,9 @@ public class VideoTrimmerUtil {
 
   public static void shootVideoThumbInBackground(final Context context, final Uri videoUri, final int totalThumbsCount, final long startPosition,
       final long endPosition, final SingleCallback<Bitmap, Integer> callback) {
-    BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0L, "") {
+    BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0L, "") {  // BackgroundExecutor is the outer class & Task is the inner class
+      // BackgroundExecutor.Task("", 0L, "") is the nested anonymous class
+      // Task is an abstract class and hence execute() method is implemented here
       @Override public void execute() {
         try {
           MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
