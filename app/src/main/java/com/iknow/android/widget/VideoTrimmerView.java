@@ -112,7 +112,8 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
     mVideoThumbAdapter = new VideoTrimmerAdapter(mContext);   // public class VideoTrimmerAdapter extends RecyclerView.Adapter
     mVideoThumbRecyclerView.setAdapter(mVideoThumbAdapter);
     mVideoThumbRecyclerView.addOnScrollListener(mOnScrollListener);
-    setUpListeners();
+    setUpListeners();   // this method calls videoPrepared(MediaPlayer mp) which in turn calls
+                                      //  startShootVideoThumbs(mContext, mSourceUri, mThumbsTotalCount, 0, mDuration);
   }
 
   private void initRangeSeekBarView() {
@@ -155,7 +156,7 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
 
   private void startShootVideoThumbs(final Context context, final Uri videoUri, int totalThumbsCount, long startPosition, long endPosition) {
     VideoTrimmerUtil.shootVideoThumbInBackground(context, videoUri, totalThumbsCount, startPosition, endPosition,
-        new SingleCallback<Bitmap, Integer>() {
+        new SingleCallback<Bitmap, Integer>() {   // annonymous class SingleCallback<Bitmap, Integer>()
           @Override public void onSingleCallback(final Bitmap bitmap, final Integer interval) {
             if (bitmap != null) {
               UiThreadExecutor.runTask("", new Runnable() {
