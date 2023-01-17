@@ -23,7 +23,7 @@ import nl.bravobit.ffmpeg.FFmpeg;
  * Describe:
  */
 public class VideoTrimmerUtil {
-
+//hello
   private static final String TAG = VideoTrimmerUtil.class.getSimpleName();
   public static final long MIN_SHOOT_DURATION = 3000L;// 最小剪辑时间3s
   public static final int VIDEO_MAX_TIME = 10;// 10秒
