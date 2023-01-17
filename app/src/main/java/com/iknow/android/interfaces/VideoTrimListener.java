@@ -8,7 +8,7 @@ package com.iknow.android.interfaces;
  */
 
 
-//he;;p
+
 public interface VideoTrimListener {
     void onStartTrim();
     void onFinishTrim(String url);
