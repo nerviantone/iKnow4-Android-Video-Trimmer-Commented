@@ -6,6 +6,9 @@ package com.iknow.android.interfaces;
  * Email： who_know_me@163.com
  * Describe:
  */
+
+
+//he;;p
 public interface VideoTrimListener {
     void onStartTrim();
     void onFinishTrim(String url);
