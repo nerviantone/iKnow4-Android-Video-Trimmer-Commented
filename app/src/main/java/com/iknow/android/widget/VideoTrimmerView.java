@@ -86,7 +86,7 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
   private boolean isOverScaledTouchSlop;
   private int mThumbsTotalCount;
   private ValueAnimator mRedProgressAnimator;
-  private Handler mAnimationHandler = new Handler();  // ? what's a handler
+  private Handler mAnimationHandler = new Handler();  // ? what's a handler - ? pushes data from background thread to message que of UI thread
 
   public VideoTrimmerView(Context context, AttributeSet attrs) {
     this(context, attrs, 0);
