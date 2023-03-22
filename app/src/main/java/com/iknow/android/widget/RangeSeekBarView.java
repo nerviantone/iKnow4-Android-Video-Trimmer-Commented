@@ -163,7 +163,7 @@ public class RangeSeekBarView extends View {
         paint);
   }
 
-  private void drawVideoTrimTimeText(Canvas canvas) {
+  private void drawVideoTrimTimeText(Canvas canvas) {   // draws the start and end time text
     String leftThumbsTime = DateUtil.convertSecondsToTime(mStartPosition);
     String rightThumbsTime = DateUtil.convertSecondsToTime(mEndPosition);
     canvas.drawText(leftThumbsTime, normalizedToScreen(normalizedMinValue), TextPositionY, mVideoTrimTimePaintL);

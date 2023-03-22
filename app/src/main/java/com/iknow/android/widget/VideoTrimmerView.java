@@ -31,8 +31,8 @@ import iknow.android.utils.callback.SingleCallback;
 import iknow.android.utils.thread.BackgroundExecutor;
 import iknow.android.utils.thread.UiThreadExecutor;
 
-import static com.iknow.android.features.trim.VideoTrimmerUtil.MAX_COUNT_RANGE;
-import static com.iknow.android.features.trim.VideoTrimmerUtil.MAX_SHOOT_DURATION;
+import static com.iknow.android.features.trim.VideoTrimmerUtil.MAX_COUNT_RANGE; // this is set as 10 ? the length of seek view
+import static com.iknow.android.features.trim.VideoTrimmerUtil.MAX_SHOOT_DURATION; // this is set at 10seconds
 import static com.iknow.android.features.trim.VideoTrimmerUtil.RECYCLER_VIEW_PADDING;
 import static com.iknow.android.features.trim.VideoTrimmerUtil.THUMB_WIDTH;
 import static com.iknow.android.features.trim.VideoTrimmerUtil.VIDEO_FRAMES_WIDTH;
@@ -47,7 +47,7 @@ import static com.iknow.android.features.trim.VideoTrimmerUtil.VIDEO_FRAMES_WIDT
 
 // called from   com/iknow/android/features/trim/VideoTrimmerActivity.java
 // as mBinding.trimmerView.initVideoByURI(Uri.parse(path));
-public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
+public class VideoTrimmerView<averagePxMs> extends FrameLayout implements IVideoTrimmerView {
 
   //IVideoTrimmerView - interface with a single method void onDestroy();
 
@@ -67,8 +67,8 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
   private LinearLayout mSeekBarLayout;
   private ImageView mRedProgressIcon;
   private TextView mVideoShootTipTv;
-  private float mAverageMsPx;//每毫秒所占的px
-  private float averagePxMs;//每px所占用的ms毫秒
+  private float mAverageMsPx;//每毫秒所占的px translates to pixel per milliseconds
+  private float averagePxMs;//每px所占用的ms毫秒  translates to milliseconds per pixel
   private Uri mSourceUri;
   private VideoTrimListener mOnTrimVideoListener; // interface with 3 methods  void onStartTrim();
                                                                     //void onFinishTrim(String url);
@@ -119,13 +119,19 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
   private void initRangeSeekBarView() {
     if(mRangeSeekBarView != null) return;
     mLeftProgressPos = 0;
-    if (mDuration <= MAX_SHOOT_DURATION) {
-      mThumbsTotalCount = MAX_COUNT_RANGE;
+    if (mDuration <= MAX_SHOOT_DURATION) { //  MAX_SHOOT_DURATION = VIDEO_MAX_TIME * 1000L and mDuration = mVideoView.getDuration();
+      mThumbsTotalCount = MAX_COUNT_RANGE; // set as 10 - seekbar length   // VIDEO_MAX_TIME = 10
       mRightProgressPos = mDuration;
     } else {
       mThumbsTotalCount = (int) (mDuration * 1.0f / (MAX_SHOOT_DURATION * 1.0f) * MAX_COUNT_RANGE);
       mRightProgressPos = MAX_SHOOT_DURATION;
+
     }
+    Log.i("MAX_SHOOT_DURATION", String.valueOf(MAX_SHOOT_DURATION));
+    Log.i("MAX_COUNT_RANGE", String.valueOf(MAX_COUNT_RANGE));
+    Log.i(" mDuration", String.valueOf(mDuration));
+    Log.i(" mThumbsTotalCount", String.valueOf(mThumbsTotalCount));
+
     mVideoThumbRecyclerView.addItemDecoration(new SpacesItemDecoration2(RECYCLER_VIEW_PADDING, mThumbsTotalCount));
     mRangeSeekBarView = new RangeSeekBarView(mContext, mLeftProgressPos, mRightProgressPos);
     mRangeSeekBarView.setSelectedMinValue(mLeftProgressPos);
@@ -141,7 +147,9 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
       mAverageMsPx = 0f;
     }
     averagePxMs = (mMaxWidth * 1.0f / (mRightProgressPos - mLeftProgressPos));
+    Log.i("averagePxMs", String.valueOf(averagePxMs));
   }
+
   // called from   com/iknow/android/features/trim/VideoTrimmerActivity.java
 // as mBinding.trimmerView.initVideoByURI(Uri.parse(path));
 
@@ -208,6 +216,9 @@ public class VideoTrimmerView extends FrameLayout implements IVideoTrimmerView {
     }
     initRangeSeekBarView();
     startShootVideoThumbs(mContext, mSourceUri, mThumbsTotalCount, 0, mDuration);
+    //  only after the videoview is set with the uri
+    //  then the method to load
+    //  recyclerview with thumbnail data is called //
   }
 
   private void videoCompleted() {
