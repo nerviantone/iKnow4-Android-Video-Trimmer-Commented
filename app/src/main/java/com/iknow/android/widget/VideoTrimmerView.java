@@ -237,12 +237,15 @@ public class VideoTrimmerView<averagePxMs> extends FrameLayout implements IVideo
 
   private void playVideoOrPause() {
     mRedProgressBarPos = mVideoView.getCurrentPosition();
+
     if (mVideoView.isPlaying()) {
       mVideoView.pause();
       pauseRedProgressAnimation();
+
     } else {
       mVideoView.start();
       playingRedProgressAnimation();
+
     }
     setPlayPauseViewIcon(mVideoView.isPlaying());
   }
@@ -437,6 +440,8 @@ public class VideoTrimmerView<averagePxMs> extends FrameLayout implements IVideo
       @Override public void onAnimationUpdate(ValueAnimator animation) {
         params.leftMargin = (int) animation.getAnimatedValue();
         mRedProgressIcon.setLayoutParams(params);
+        Log.i("mRedProgressBarPos", "mRedProgressBarPos in milliseconds ( only on pressing play after pause = " + mRedProgressBarPos);
+
         Log.d(TAG, "----onAnimationUpdate--->>>>>>>" + mRedProgressBarPos);
       }
     });
