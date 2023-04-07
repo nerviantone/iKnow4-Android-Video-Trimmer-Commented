@@ -28,6 +28,8 @@ import com.iknow.android.interfaces.IVideoTrimmerView;
 import com.iknow.android.interfaces.VideoTrimListener;
 import com.iknow.android.features.trim.VideoTrimmerUtil;
 import com.iknow.android.utils.StorageUtil;
+
+import iknow.android.utils.UnitConverter;
 import iknow.android.utils.callback.SingleCallback;
 import iknow.android.utils.thread.BackgroundExecutor;
 import iknow.android.utils.thread.UiThreadExecutor;
@@ -134,6 +136,9 @@ public class VideoTrimmerView<averagePxMs> extends FrameLayout implements IVideo
     Log.i(" mThumbsTotalCount", String.valueOf(mThumbsTotalCount));
 
     mVideoThumbRecyclerView.addItemDecoration(new SpacesItemDecoration2(RECYCLER_VIEW_PADDING, mThumbsTotalCount));
+    //  public static final int RECYCLER_VIEW_PADDING = UnitConverter.dpToPx(35);
+    Log.i("RECYCLER_VIEW_PADDING", "RECYCLER_VIEW_PADDING = " +RECYCLER_VIEW_PADDING);
+
     mRangeSeekBarView = new RangeSeekBarView(mContext, mLeftProgressPos, mRightProgressPos);
     mRangeSeekBarView.setSelectedMinValue(mLeftProgressPos);
     mRangeSeekBarView.setSelectedMaxValue(mRightProgressPos);
@@ -334,7 +339,7 @@ public class VideoTrimmerView<averagePxMs> extends FrameLayout implements IVideo
       mLeftProgressPos = minValue + scrollPos;
       mRedProgressBarPos = mLeftProgressPos;
       mRightProgressPos = maxValue + scrollPos;
-      Log.i("scrollPos", "scrollPos is" + scrollPos);
+      Log.i("scrollPos", "scrollPos in milliseconds is" + scrollPos);
       Log.d(TAG, "-----mLeftProgressPos----->>>>>>" + mLeftProgressPos);
       Log.d(TAG, "-----mRightProgressPos----->>>>>>" + mRightProgressPos);
       switch (action) {
@@ -364,6 +369,7 @@ public class VideoTrimmerView<averagePxMs> extends FrameLayout implements IVideo
       Log.d(TAG, "newState = " + newState);
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
       super.onScrolled(recyclerView, dx, dy);
@@ -378,14 +384,20 @@ public class VideoTrimmerView<averagePxMs> extends FrameLayout implements IVideo
       isOverScaledTouchSlop = true;
       //初始状态,why ? 因为默认的时候有35dp的空白！
       if (scrollX == -RECYCLER_VIEW_PADDING) {
+        //public static final int RECYCLER_VIEW_PADDING = UnitConverter.dpToPx(35);
         scrollPos = 0;
       } else {
         isSeeking = true;
         scrollPos = (long) (mAverageMsPx * (RECYCLER_VIEW_PADDING + scrollX) / THUMB_WIDTH);
+
+        //public static final int RECYCLER_VIEW_PADDING = UnitConverter.dpToPx(35);
+        Log.i(" scrollPos ", " scrollPos  = " +  scrollPos );
+
         Log.i(" THUMB_WIDTH ", " THUMB_WIDTH  = " +  THUMB_WIDTH );
       //  public static final int THUMB_WIDTH = (SCREEN_WIDTH_FULL - RECYCLER_VIEW_PADDING * 2) / VIDEO_MAX_TIME;
         mLeftProgressPos = mRangeSeekBarView.getSelectedMinValue() + scrollPos;
         mRightProgressPos = mRangeSeekBarView.getSelectedMaxValue() + scrollPos;
+        Log.i("mRangeSeekBarView.getSelectedMaxValue() ", " mRangeSeekBarView.getSelectedMaxValue() = " + mRangeSeekBarView.getSelectedMaxValue() );
         //called only when the recyclerview is scrolled
         // not when the right range seek bar is moved
         Log.i(" mRightProgressPos ", " mRightProgressPos in milliseconds = " +  mRightProgressPos );
